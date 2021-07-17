@@ -1,0 +1,27 @@
+.orga 0x21AE98 ;;Behaviour 0x13001098
+.dw 0x00060000
+.dw 0x11014001
+.dw 0x08000000
+.dd 0x0C0000008040F600
+.dw 0x09000000
+
+
+.orga 0x120F600
+
+ADDIU SP, SP, -0x18
+SW RA, 0x14(SP)
+
+LI T0, 0x803613FE
+LB T1, 0(T0)
+ADDIU T2, R0, 8
+SUBU A3, T2, T1
+
+ADDIU A0, R0, 22 ;;X value in HUD 
+ADDIU A1, R0, 20 ;;Y value in HUD
+LI A2, 0x803383A0
+JAL 0x802D62D8 ;;Function that prints in HUD
+NOP
+
+LW RA, 0x14(SP)
+JR RA
+ADDIU SP, SP, 0x18
