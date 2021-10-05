@@ -1,0 +1,71 @@
+.orga 0x0021AD14	;;Uses Behaviour 0x13000F14
+.dw 0x00060000
+.dw 0x11014041
+.dw 0x08000000
+.dd 0x0C0000008040F600
+.dw 0x09000000 
+
+.orga 0x120F600
+
+ADDIU SP, SP, -0x18
+SW RA, 0x14(SP)
+
+B Poop4 		;;Shin3 will bully me forever for this, I kept this for memes.
+NOP
+
+Poop4:
+JAL 0x8027A16C		;;Calling Set flags of each save file.
+NOP
+
+LI T5, 0x80361160	;;Points to same object for using BParams.
+LW T5, 0(T5)
+LB T5, 0x18A(T5)
+BNEZ T5, Poop5
+NOP
+
+LUI T6, 0x8036		;;flop memes.
+LW T6, 0x1160(T6)       ;;object related stuff.
+LUI AT, 0x437A          ;;distance value i think. dont remember but 90% sure it is.
+MTC1 AT, F6             ;;moves value to different register.
+LWC1 F4, 0x015C(T6)     ;;mario distance from object.
+C.LT.S F4, F6           ;;very detailed calculation of objects distances from mario thingy, dont understand it fully but it exists.
+NOP
+BC1F Poop80             ;;Branch if the conditon is false, ends the code anyway.
+
+
+ORI A0, V0, 0x4000	;;checking flag of the 8 star door.
+JAL 0x8027A0A8		;;Calling Write flags of each save file.
+NOP
+B Poop80
+NOP
+
+Poop5:
+LI T6, 0x8033B170	;;Game flags.
+ANDI T1, V0, 0x4000	;;checking flag bitwise to 8 star door.
+BNEZ T1, Poop80
+NOP
+
+Poop90:
+ADDIU T3, R0, 200	;;X value 
+MTC1 T3, F8
+NOP
+CVT.S.W F10, F8
+SWC1 F10, 0x3C(T6)
+ADDIU T3, R0, -1600	;;Y value
+MTC1 T3, F8
+NOP
+CVT.S.W F10, F8
+SWC1 F10, 0x40(T6)
+ADDIU T3, R0, 200	;;Z value
+MTC1 T3, F8
+NOP
+CVT.S.W F10, F8
+SWC1 F10, 0x44(T6) 
+LUI A0, 0x8036
+JAL 0x802A0568 		;;flags for deletion
+LW A0, 0x1160(A0)
+
+Poop80:
+LW RA, 0x14(SP)
+JR RA
+ADDIU SP, SP, 0x18
